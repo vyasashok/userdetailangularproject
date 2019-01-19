@@ -32,7 +32,7 @@ export class UserListComponent implements OnInit{
                     email:ele.email,
                     city:ele.city,
                     skills: ele.skills,
-                    imagePath: "F://angular/userdetailproject/uploads/"+ele.imageName
+                    imagePath: ele.imageName
                 }
             })
          })

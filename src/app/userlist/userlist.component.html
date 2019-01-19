@@ -19,7 +19,7 @@
       </thead>
       <tbody>
           <tr *ngFor="let user of users">
-            <td><img [src]="user.imagePath" [alt]="user.firstName"/></td>
+            <td><img [src]="'assets/images/'+user.imagePath" [alt]="user.firstName" class="img-responsive" style="max-height:50px; max-width:50px;"></td>
             <td>{{user.firstName}}</td>
             <td>{{user.lastName}}</td>
             <td>{{user.gender}}</td>
@@ -28,7 +28,7 @@
             <td>{{user.skills}}</td>
             <td><a type="button" class="btn btn-primary" routerLink="/user/{{user.email}}">View</a>
                 <a type="button" class="btn btn-primary" routerLink="/user/edit/{{user.email}}">Edit</a>
-                <button type="button" class="btn btn-primary" (click)="onClickDelete(user.userId)">Delete</button>
+                <a type="button" class="btn btn-primary" (click)="onClickDelete(user.userId)">Delete</a>
             </td>
           </tr>
         <!-- <app-user *ngFor="let user of users" [user]="user"></app-user> -->

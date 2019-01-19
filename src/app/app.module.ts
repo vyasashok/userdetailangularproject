@@ -8,6 +8,7 @@ import {UserListComponent} from './userlist/userlist.component';
 import { UserComponent } from './userlist/user/user.component';
 import { CreateuserComponent } from './createuser/createuser.component';
 import { ActiveDirective } from './directives/active.directive';
+import { ViewdetailComponent } from './viewdetail/viewdetail.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ActiveDirective } from './directives/active.directive';
     UserListComponent,
     UserComponent,
     CreateuserComponent,
-    ActiveDirective
+    ActiveDirective,
+    ViewdetailComponent
   ],
   imports: [
     BrowserModule,
