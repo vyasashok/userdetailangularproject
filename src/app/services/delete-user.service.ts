@@ -19,7 +19,7 @@ export class DeleteUserService {
 
   }
 
-  getUser(userId: any):Observable<any>{
+  deleteUser(userId: any):Observable<any>{
     return this.http.post<any>(this.deleteUserUrl, userId, httpOptions).pipe(
       tap((userId:any)=>{
           console.log("delete user")

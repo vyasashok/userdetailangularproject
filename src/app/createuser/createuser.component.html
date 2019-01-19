@@ -8,7 +8,7 @@
         <a #upldPhts class="nav-link" href="javascript:;" (click)="toggleTab(prsnlDtls, upldPhts, 'photo')">Upload Photo</a>
       </li>
     </ul>
-    <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+    <div>
       <div [hidden]="prsnl">
         <div class="form-group">
           <label for="firstname">First Name:</label>
@@ -45,11 +45,12 @@
       <div [hidden]="photo">
         <div class="form-group">
             <label for="file">Upload Photo:</label>
-            <input #image type="file" class="form-control" [value]="details.imagePath" id="file" name="file"(change)="onUploadPhoto(image)">
+            <input #image type="file" class="form-control"  id="file" name="file" />
+            <a type="button" href="javascript:;"  class="btn btn-default" (click)="onUploadPhoto(image, $event)">Upload</a>
           </div>
       </div>
-      <button type="submit" [disabled]="!heroForm.form.valid" class="btn btn-primary">{{EditOrSubmitBtn}}</button>
-    </form>
+      <button type="button"  class="btn btn-primary" (click)="onSubmit()">{{EditOrSubmitBtn}}</button>
+    </div>
 
 
     <!-- Modal -->

@@ -80,12 +80,11 @@ export class CreateuserComponent implements OnInit {
      }
   }
 
-  onUploadPhoto(image){
-     // console.log(image)
-
-      this.details.imagePath = image.files[0].name;
+  onUploadPhoto(image, event){
+    event.preventDefault();
       this.uploadImageService.uploadImage(image.files[0]).subscribe((res)=>{
-        console.log(res);
+        this.details.imagePath = image.files[0].name;
+        return false;
       });
 
   }

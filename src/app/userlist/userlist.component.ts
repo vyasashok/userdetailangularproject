@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {userDetail} from './userdetail.model';
 import {GetUesrsService} from '../services/get-users.service';
 import {GetUserService} from '../services/get-user.service';
+import {DeleteUserService} from '../services/delete-user.service';
 
 @Component({
     selector:'app-userlist',
@@ -14,7 +15,8 @@ export class UserListComponent implements OnInit{
     users = [];
 
     constructor(private getUsersService: GetUesrsService,
-                 private getUserService: GetUserService){  }
+                 private getUserService: GetUserService,
+                 private deleteUserService: DeleteUserService){  }
 
     ngOnInit(){
        this.getUsers();
@@ -38,18 +40,17 @@ export class UserListComponent implements OnInit{
          })
     }
 
-    onClickEdit(userId){
-        this.getUserService.getUser({userId:userId}).subscribe((result)=>{
-          console.log(result)
-        })
-    }
-
-    onClickView(userId){
-       
-    }
 
     onClickDelete(userId){
-       
+        this.deleteUserService.deleteUser({userId:userId}).subscribe((result)=>{
+            console.log(result)
+
+            this.users = this.users.filter((ele)=>{
+                if(ele.userId !== userId){
+                  return ele;
+                }
+            })
+        })
     }
     
 }
