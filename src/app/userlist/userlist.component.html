@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="row">
+     <h2>Users</h2>   
+     <a routerLink="/user/add"><span>&#43;</span></a> 
+    </div>
+       
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>FirstName</th>
+          <th>LastName</th>
+          <th>Gender</th>
+          <th>Email</th>
+          <th>city</th>
+          <th>Skills</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let user of users">
+            <td><img [src]="user.imagePath" [alt]="user.firstName"/></td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.gender}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.city}}</td>
+            <td>{{user.skills}}</td>
+            <td><a type="button" class="btn btn-primary" routerLink="/user/{{user.email}}">View</a>
+                <a type="button" class="btn btn-primary" routerLink="/user/edit/{{user.email}}">Edit</a>
+                <button type="button" class="btn btn-primary" (click)="onClickDelete(user.userId)">Delete</button>
+            </td>
+          </tr>
+        <!-- <app-user *ngFor="let user of users" [user]="user"></app-user> -->
+      </tbody>
+    </table>
+  </div>
+
+
+
+

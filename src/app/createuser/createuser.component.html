@@ -1,0 +1,98 @@
+<div class="container">
+    <h1>Create User</h1>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a #prsnlDtls class="nav-link active" href="javascript:;" (click)="toggleTab(prsnlDtls, upldPhts, 'detail')">Personal Detail</a>
+      </li>
+      <li class="nav-item">
+        <a #upldPhts class="nav-link" href="javascript:;" (click)="toggleTab(prsnlDtls, upldPhts, 'photo')">Upload Photo</a>
+      </li>
+    </ul>
+    <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+      <div [hidden]="prsnl">
+        <div class="form-group">
+          <label for="firstname">First Name:</label>
+          <input type="text" class="form-control" placeholder="Enter First Name" [(ngModel)]="details.firstName"  name="firstname">
+        </div>
+        <div class="form-group">
+            <label for="lastname">Last Name:</label>
+            <input type="text" class="form-control"  placeholder="Enter Last Name" [(ngModel)]="details.lastName" name="lastname">
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" placeholder="Enter Email" [(ngModel)]="details.email" name="email">
+        </div>
+        <div class="form-group">
+            <label for="city">City:</label>
+            <button type="button" class="btn" data-toggle="modal" data-target="#myCityModal">Add City</button>
+            <select class="form-control" id="city" required  [(ngModel)]="details.city" name="city">
+              <option value="">--select--</option>
+              <option *ngFor="let city of cities" [value]="city">{{city}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Gender:</label><br>
+            <label><input type="radio" name="gender" value="male" [(ngModel)]="details.gender">Male</label>
+            <label><input type="radio" name="gender" value="female" [(ngModel)]="details.gender">Female</label>
+        </div>
+        <div class="form-group">
+            <label for="skill">Skills:</label>
+            <button type="button" class="btn" data-toggle="modal" data-target="#mySkillModal">Add Skill</button>
+            <br>
+            <span *ngFor="let skill of skills"><input type="checkbox" [checked]="details.skills.indexOf(skill) > -1" name="{{skill}}" value="{{skill}}" (change)="onChangeCheckBox($event)">{{skill}}<br></span>
+        </div>
+      </div>
+      <div [hidden]="photo">
+        <div class="form-group">
+            <label for="file">Upload Photo:</label>
+            <input #image type="file" class="form-control" [value]="details.imagePath" id="file" name="file"(change)="onUploadPhoto(image)">
+          </div>
+      </div>
+      <button type="submit" [disabled]="!heroForm.form.valid" class="btn btn-primary">{{EditOrSubmitBtn}}</button>
+    </form>
+
+
+    <!-- Modal -->
+    <div id="myCityModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+      
+          <!-- Modal content-->
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Add City</h4>
+            </div>
+            <div class="modal-body">       
+              <input #newCity type="text" value=""/>
+              <button type="button" class="btn btn-primary" (click)="onClickAddCity(newCity.value)">Add</button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+      
+        </div>
+    </div>
+    <div id="mySkillModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+      
+          <!-- Modal content-->
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Add Skill</h4>
+            </div>
+            <div class="modal-body">       
+              <input #newSkill type="text" value=""/>
+              <button type="button" class="btn btn-primary" (click)="onClickAddSkill(newSkill.value)">Add</button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+      
+        </div>
+    </div>
+  </div>
