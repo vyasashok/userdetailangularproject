@@ -8,6 +8,7 @@ import {SavecityService} from '../services/savecity.service';
 import {SaveskillService} from '../services/saveskill.service';
 import {GetMasterDataService} from '../services/get-master-data.service';
 import {GetUserService} from '../services/get-user.service';
+import {EditUserService} from '../services/edit-user.service';
 
 @Component({
   selector: 'app-createuser',
@@ -33,7 +34,8 @@ export class CreateuserComponent implements OnInit {
               private saveCityService: SavecityService,
               private saveSkillService: SaveskillService,
               private getMasterDataService: GetMasterDataService,
-              private getUserService: GetUserService
+              private getUserService: GetUserService,
+              private editUserService: EditUserService
               ) { 
             
 
@@ -143,10 +145,24 @@ export class CreateuserComponent implements OnInit {
   }
 
   onSubmit(){
-   // console.log(this.details)
-   this.saveUserService.saveUser(this.details).subscribe((res)=>{
-     console.log(res);
-   })
+
+    const email = this.route.snapshot.paramMap.get('email');
+
+    if(email){
+      let data = {
+         details:this.details,
+         email:email
+      }
+      this.editUserService.editUser(data).subscribe((res)=>{
+        console.log(res);
+      })
+    }
+    else{
+      this.saveUserService.saveUser(this.details).subscribe((res)=>{
+        console.log(res);
+      })
+    }  
+
   }
 
 }
