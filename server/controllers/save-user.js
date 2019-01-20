@@ -20,16 +20,29 @@ const saveUser = (req, res) =>{
           }         
       }
 
+      db.all("SELECT * FROM user_info WHERE email = ?",[email], function(err1, rows1){
+        if(err1){
+            return res.json({response: null, msg: "some error occured!", err:err1})
+        }
+        
+        else if(rows1.length === 0){
 
-      db.run("INSERT INTO user_info VALUES (?,?,?,?,?,?,?,?)",[userId,firstName,lastName,email,gender,city,skills,imageName], function(err, rows){
-        if(err){
-            res.json({response:null,success:false, msg:"some error!",err:err});
-        }
+            db.run("INSERT INTO user_info VALUES (?,?,?,?,?,?,?,?)",[userId,firstName,lastName,email,gender,city,skills,imageName], function(err, rows){
+                if(err){
+                   return res.json({response:null,success:false, msg:"some error!",err:err});
+                }
+                else{
+                   return res.json({response:rows, success:true, msg:"User saved successfuly!", err:null});
+                }
+               
+            }); 
+        } 
+
         else{
-            res.json({response:rows, success:true, msg:"User saved successfuly!", err:null});
+            return res.json({response:null,success:false, msg:"Email already exist!",err:"Email already exist!"});
         }
-       
-    });  
+     }) 
+ 
 }
 
 module.exports = {

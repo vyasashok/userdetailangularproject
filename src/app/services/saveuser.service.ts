@@ -19,12 +19,12 @@ export class SaveuserService {
 
   }
 
-  saveUser(user: userDetail):Observable<userDetail>{
-    return this.http.post<userDetail>(this.saveUserUrl, user, httpOptions).pipe(
-      tap((user:userDetail)=>{
+  saveUser(user: any):Observable<any>{
+    return this.http.post<any>(this.saveUserUrl, user, httpOptions).pipe(
+      tap((user:any)=>{
           console.log("add user")
       }),
-      catchError(this.handleError<userDetail>('addUser'))
+      catchError(this.handleError<any>('addUser'))
     )
 
     

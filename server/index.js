@@ -7,6 +7,8 @@ const port = process.env.PORT || 5003;
 const server = require('http').createServer(app);
 const route = require('./routes/routes');
 
+app.use(express.static(__dirname + '/public'));
+
 app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

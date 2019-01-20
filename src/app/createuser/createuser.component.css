@@ -1,0 +1,30 @@
+.ml {
+    padding-left:60px;
+}
+
+.hh {
+    height:60px;
+}
+
+.filebx{
+     /* color: transparent;
+     border: none;
+     outline:none; */
+     width: 30%;
+}
+
+.brdr{
+    border: 1px solid
+}
+
+.errText{
+    color:red;
+}
+
+.mandatory{
+    color:red;
+}
+
+.mt{
+    margin-top:10px;
+}

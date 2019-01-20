@@ -9,6 +9,8 @@ import {SaveskillService} from '../services/saveskill.service';
 import {GetMasterDataService} from '../services/get-master-data.service';
 import {GetUserService} from '../services/get-user.service';
 import {EditUserService} from '../services/edit-user.service';
+import { Router } from "@angular/router";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-createuser',
@@ -19,6 +21,13 @@ export class CreateuserComponent implements OnInit {
 
   prsnl = false;
   photo = true;
+  valid = false;
+  validationError = {
+    firstNameError: "",
+    lastNameError:"",
+    emailError:"",
+    skillError:""
+  };
 
   EditOrSubmitBtn = "Submit";
 
@@ -35,7 +44,9 @@ export class CreateuserComponent implements OnInit {
               private saveSkillService: SaveskillService,
               private getMasterDataService: GetMasterDataService,
               private getUserService: GetUserService,
-              private editUserService: EditUserService
+              private editUserService: EditUserService,
+              private router: Router,
+              private location: Location
               ) { 
             
 
@@ -66,6 +77,14 @@ export class CreateuserComponent implements OnInit {
   }
 
   onChangeCheckBox(e){
+
+    this.validationError = {
+      firstNameError: "",
+      lastNameError:"",
+      emailError:"",
+      skillError:""
+    };
+
      if(e.target.checked){
        this.details.skills.push(e.target.value)
      }
@@ -80,31 +99,35 @@ export class CreateuserComponent implements OnInit {
      }
   }
 
-  onUploadPhoto(image, event){
-    event.preventDefault();
+  onUploadPhoto(image){
+   // event.preventDefault();
       this.uploadImageService.uploadImage(image.files[0]).subscribe((res)=>{
         this.details.imagePath = image.files[0].name;
-        return false;
+        alert("image uploaded successfuly!")
       });
 
   }
 
   onClickAddCity(newCity){
-    if(this.cities.indexOf(newCity) === -1){
-    
-      this.saveCityService.saveCity({cityName:newCity}).subscribe((res)=>{
+    let value = newCity.value;
+    if(this.cities.indexOf(value) === -1){
+     
+      this.saveCityService.saveCity({cityName:value}).subscribe((res)=>{
        // console.log(res);
-       this.cities.push(newCity);
+       this.cities.push(value);
+       newCity.value="";
       })
     }
   }
 
   onClickAddSkill(newSkill){
-    if(this.skills.indexOf(newSkill) === -1){
+    let value = newSkill.value;
+    if(this.skills.indexOf(value) === -1){
  
-      this.saveSkillService.saveSkill({skillName:newSkill}).subscribe((res)=>{
+      this.saveSkillService.saveSkill({skillName:value}).subscribe((res)=>{
         //console.log(res);
-        this.skills.push(newSkill);
+        this.skills.push(value);
+        newSkill.value="";
       })
     }
   }
@@ -113,15 +136,15 @@ export class CreateuserComponent implements OnInit {
 
     this.getMasterDataService.getMasterData().subscribe((result)=>{
        console.log(result);
+       if(result.response){
+          this.cities = result.response.cities.map((ele)=>{
+            return ele.cityname;
+          });
 
-       this.cities = result.response.cities.map((ele)=>{
-          return ele.cityname;
-       });
-
-       this.skills = result.response.skills.map((ele)=>{
-        return ele.skillname;
-       })
-
+        this.skills = result.response.skills.map((ele)=>{
+          return ele.skillname;
+        })
+       }
     })
     
   }
@@ -143,25 +166,87 @@ export class CreateuserComponent implements OnInit {
    })
   }
 
+  onClickClear(){
+    this.details =  new userDetail("", "", "", "", [], "", "");
+  }
+
+  onClickBack(){
+    this.location.back();
+  }
+
+  onFocus(){
+    this.validationError = {
+      firstNameError: "",
+      lastNameError:"",
+      emailError:"",
+      skillError:""
+    };
+  }
+
   onSubmit(){
 
     const email = this.route.snapshot.paramMap.get('email');
+
+    this.validation();
 
     if(email){
       let data = {
          details:this.details,
          email:email
       }
-      this.editUserService.editUser(data).subscribe((res)=>{
-        console.log(res);
-      })
+      if(this.valid){
+        this.editUserService.editUser(data).subscribe((res)=>{
+          console.log(res);      
+          alert(res.msg); 
+          if(!res.err){
+            this.router.navigate(['/users']); 
+          }         
+        })
+      }
     }
     else{
-      this.saveUserService.saveUser(this.details).subscribe((res)=>{
-        console.log(res);
-      })
+      if(this.valid){
+        this.saveUserService.saveUser(this.details).subscribe((res)=>{
+          console.log(res);
+          alert(res.msg); 
+          if(!res.err){
+            this.router.navigate(['/users']); 
+          } 
+        })
+      }
     }  
 
+  }
+
+  validation(){
+    const  NAME_REG_EXP = /^[a-zA-Z' ]{1,}$/;
+    const  EMAIL_REG_EXP = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    
+    let firstNameValidationStatus = NAME_REG_EXP.test(this.details.firstName);
+   // let lastNameValidationStatus = NAME_REG_EXP.test(this.details.lastName);
+    let emaiValidationStatus = EMAIL_REG_EXP.test(this.details.email);
+    let skillValidationstatus = (this.details.skills.length > 0);
+    
+    if(firstNameValidationStatus  && emaiValidationStatus && skillValidationstatus){
+         this.valid = true;
+    }
+    else{
+      if(!firstNameValidationStatus){
+        this.validationError.firstNameError = "Invalid First Name!";
+      }
+
+      // if(!lastNameValidationStatus){
+      //   this.validationError.lastNameError = "Invalid Last Name!"
+      // }
+
+      if(!emaiValidationStatus){
+         this.validationError.emailError="Invalid Email!"
+      }
+
+      if(!skillValidationstatus){
+        this.validationError.skillError="altest one skill required!"
+      }
+    }
   }
 
 }

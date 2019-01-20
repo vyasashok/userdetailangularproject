@@ -10,7 +10,7 @@ const deleteUser = (req, res) => {
         }
       
         else{
-          res.json({response: row,  msg: "success", err:null})
+          res.json({response: row,  msg: "user deleted successfuly!", err:null})
 
         }            
     }) 

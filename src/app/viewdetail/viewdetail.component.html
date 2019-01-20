@@ -1,34 +1,39 @@
-<div class="container">
-  <h1>User Details</h1>
+<div class="container mt">
+  <div class="row">
+      <h1>User Detail</h1>
+  </div>
   <div class="row">
     <div class="col-md-6">
         <div class="row">
-            <label>Fisrt Name:</label>
+            <label class="lbl">Fisrt Name:</label>&nbsp;&nbsp;
             <span>{{details.firstName}}</span>
           </div>
           <div class="row">
-              <label>Last Name:</label>
+              <label class="lbl">Last Name:</label>&nbsp;&nbsp;
               <span>{{details.lastName}}</span>
             </div>
             <div class="row">
-                <label>Email:</label>
+                <label class="lbl">Email:</label>&nbsp;&nbsp;
                 <span>{{details.email}}</span>
             </div>
             <div class="row">
-                  <label>Gender:</label>
+                  <label class="lbl">Gender:</label>&nbsp;&nbsp;
                   <span>{{details.gender}}</span>
             </div>
             <div class="row">
-                  <label>City:</label>
+                  <label class="lbl">City:</label>&nbsp;&nbsp;
                   <span>{{details.city}}</span>
             </div>
             <div class="row">
-                  <label>Skills:</label>
+                  <label class="lbl">Skills:</label>&nbsp;&nbsp;
                   <span>{{details.skills}}</span>
             </div>
     </div>
     <div class="col-md-6">
-       <img [src]="'assets/images/'+details.imagePath" alt="{{details.firstName}}" class="img-responsive">
+       <img [src]="'http://localhost:5003/uploads/'+details.imagePath" alt="{{details.firstName}}" class="img-responsive" style="max-height: 200px; max-width: 300px;">
     </div>
+  </div>
+  <div class="row">
+      <button type="button" style="float: left;"  class="btn btn-primary" (click)="onClickBack()">Back</button>
   </div>
 </div>

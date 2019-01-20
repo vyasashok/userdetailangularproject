@@ -23,34 +23,47 @@ export class UserListComponent implements OnInit{
     }
 
     getUsers(){
+
         this.getUsersService.getUsers().subscribe((result)=>{
             console.log(result);
-            this.users = result.response.map((ele)=>{
-                return {
-                    userId: ele.user_id,
-                    firstName: ele.firstname,
-                    lastName: ele.lastname,
-                    gender: ele.gender,
-                    email:ele.email,
-                    city:ele.city,
-                    skills: ele.skills,
-                    imagePath: ele.imageName
-                }
-            })
+            if(result.response && result.response.length){
+               
+                this.users = result.response.map((ele)=>{
+                    let imageName = "default.png";
+                    if(ele.imageName){
+                        imageName = ele.imageName;
+                    }
+                    return {
+                        userId: ele.user_id,
+                        firstName: ele.firstname,
+                        lastName: ele.lastname,
+                        gender: ele.gender,
+                        email:ele.email,
+                        city:ele.city,
+                        skills: ele.skills,
+                        imagePath: imageName
+                    }
+                })
+            }
          })
     }
 
 
     onClickDelete(userId){
-        this.deleteUserService.deleteUser({userId:userId}).subscribe((result)=>{
-            console.log(result)
-
-            this.users = this.users.filter((ele)=>{
-                if(ele.userId !== userId){
-                  return ele;
+        if(confirm("Are you sure, want to delete?")){
+            this.deleteUserService.deleteUser({userId:userId}).subscribe((result)=>{
+                console.log(result)
+                if(result.response){
+                    this.users = this.users.filter((ele)=>{
+                        if(ele.userId !== userId){
+                          return ele;
+                        }
+                    })
                 }
+               alert(result.msg);
+                
             })
-        })
+        }
     }
     
 }
