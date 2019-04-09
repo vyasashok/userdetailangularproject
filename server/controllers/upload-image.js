@@ -1,4 +1,4 @@
-const uploadFolder = 'F://angular/userdetailproject/server/public/uploads';
+const uploadFolder = 'F://angular/userdetailproject/src/public/uploads';
 const fs = require('fs-extra');
 
 const uploadImage = async (req, res) => {

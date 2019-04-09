@@ -19,7 +19,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let user of users">
-              <td><img [src]="'http://localhost:5003/uploads/'+user.imagePath" [alt]="user.firstName" class="img-responsive" style="max-height:50px; max-width:50px;"></td>
+              <td><img [src]="'http://localhost:5003/public/uploads/'+user.imagePath" [alt]="user.firstName" class="img-responsive" style="max-height:50px; max-width:50px;"></td>
               <td>{{user.firstName}}</td>
               <td>{{user.lastName}}</td>
               <td>{{user.gender}}</td>

@@ -9,6 +9,9 @@ import { UserComponent } from './userlist/user/user.component';
 import { CreateuserComponent } from './createuser/createuser.component';
 import { ActiveDirective } from './directives/active.directive';
 import { ViewdetailComponent } from './viewdetail/viewdetail.component';
+import { PopupComponent } from './popup/popup.component';
+import { PopupDirective } from './directives/popup.directive';
+import { httpInterceptorProviders } from './http-interceptors/index';
 
 
 @NgModule({
@@ -18,7 +21,9 @@ import { ViewdetailComponent } from './viewdetail/viewdetail.component';
     UserComponent,
     CreateuserComponent,
     ActiveDirective,
-    ViewdetailComponent
+    ViewdetailComponent,
+    PopupComponent,
+    PopupDirective
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,8 @@ import { ViewdetailComponent } from './viewdetail/viewdetail.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
+  entryComponents: [ PopupComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

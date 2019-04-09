@@ -1,0 +1,2 @@
+server started at \\.\pipe\93e032d9-9488-4d34-9422-3fd99c814815
+Connected to the userrecord database.

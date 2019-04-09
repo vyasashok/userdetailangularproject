@@ -29,7 +29,7 @@
                 </div>
                 <div class="form-group">
                     <label for="city"><span class="mandatory">*</span>City:</label>
-                    <button type="button" title="Add City" class="btn" data-toggle="modal" data-target="#myCityModal"><i class="fa fa-plus-circle" style="font-size:24px"></i></button>
+                    <button type="button" title="Add City" class="btn" data-toggle="modal" data-target="#myCityModal" (click)="onClickPopUpBtn('city')"><i class="fa fa-plus-circle" style="font-size:24px"></i></button>
                     <select class="form-control" id="city" required  [(ngModel)]="details.city" name="city">
                       <option value="">--select--</option>
                       <option *ngFor="let city of cities" [value]="city">{{city}}</option>
@@ -44,7 +44,7 @@
               </div>
               <div class="form-group ml">
                   <label for="skill"><span class="mandatory">*</span>Skills:</label>
-                  <button type="button" title="Add Skill" class="btn" data-toggle="modal" data-target="#mySkillModal"><i class="fa fa-plus-circle" style="font-size:24px"></i></button>
+                  <button type="button" title="Add Skill" class="btn" data-toggle="modal" data-target="#mySkillModal" (click)="onClickPopUpBtn('skill')"><i class="fa fa-plus-circle" style="font-size:24px"></i></button>
                   <span class="errText" *ngIf="validationError.skillError">{{validationError.skillError}}</span>
                   <br>
                   <span *ngFor="let skill of skills"><input type="checkbox"  [checked]="details.skills.indexOf(skill) > -1" name="{{skill}}" value="{{skill}}" (change)="onChangeCheckBox($event)">{{skill}}<br></span>
@@ -73,10 +73,9 @@
 
 
     <!-- Modal -->
-    <div id="myCityModal" class="modal fade" role="dialog">
+    <ng-template popup-host></ng-template>
+    <!-- <div id="myCityModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-      
-          <!-- Modal content-->
           <div class="modal-content">
 
             <div class="modal-header hh">
@@ -87,9 +86,6 @@
               <input #newCity type="text" value=""/>&nbsp;
               <button type="button" class="btn btn-primary" (click)="onClickAddCity(newCity)" data-dismiss="modal">Add</button>
             </div>
-            <!-- <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div> -->
           </div>
       
         </div>
@@ -97,7 +93,6 @@
     <div id="mySkillModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
       
-          <!-- Modal content-->
           <div class="modal-content">
 
             <div class="modal-header hh">
@@ -108,11 +103,8 @@
               <input #newSkill type="text" value=""/>&nbsp;
               <button type="button" class="btn btn-primary" (click)="onClickAddSkill(newSkill)" data-dismiss="modal">Add</button>
             </div>
-            <!-- <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div> -->
           </div>
       
         </div>
-    </div>
+    </div> -->
   </div>

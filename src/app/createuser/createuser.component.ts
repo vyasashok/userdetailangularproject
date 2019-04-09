@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ComponentFactoryResolver, OnDestroy} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {userDetail} from '../userlist/userdetail.model';
@@ -11,6 +11,10 @@ import {GetUserService} from '../services/get-user.service';
 import {EditUserService} from '../services/edit-user.service';
 import { Router } from "@angular/router";
 import {Location} from '@angular/common';
+import {PopupDirective} from '../directives/popup.directive';
+import {PopupComponent} from '../popup/popup.component';
+import {PopUpDataComponent} from '../popup/popupdata.component';
+import {PopUpService} from '../services/popup-service';
 
 @Component({
   selector: 'app-createuser',
@@ -29,6 +33,8 @@ export class CreateuserComponent implements OnInit {
     skillError:""
   };
 
+  @ViewChild(PopupDirective) popupHost: PopupDirective;
+
   EditOrSubmitBtn = "Submit";
 
   skills = ["c#", "Javascript", "Nodejs"];
@@ -46,10 +52,19 @@ export class CreateuserComponent implements OnInit {
               private getUserService: GetUserService,
               private editUserService: EditUserService,
               private router: Router,
-              private location: Location
+              private location: Location,
+              private componentFactoryResolver: ComponentFactoryResolver,
+              private popupService: PopUpService
               ) { 
             
-
+                popupService.popupSource$.subscribe((response)=>{
+                  if(response.id === "myCityModal"){
+                    this.onClickAddCity(response.REF);
+                  }
+                  else{
+                    this.onClickAddSkill(response.REF);
+                  }
+                })
   }
 
   ngOnInit() {
@@ -114,6 +129,7 @@ export class CreateuserComponent implements OnInit {
      
       this.saveCityService.saveCity({cityName:value}).subscribe((res)=>{
        // console.log(res);
+       alert("city added");
        this.cities.push(value);
        newCity.value="";
       })
@@ -126,6 +142,7 @@ export class CreateuserComponent implements OnInit {
  
       this.saveSkillService.saveSkill({skillName:value}).subscribe((res)=>{
         //console.log(res);
+        alert("skill added");
         this.skills.push(value);
         newSkill.value="";
       })
@@ -181,6 +198,30 @@ export class CreateuserComponent implements OnInit {
       emailError:"",
       skillError:""
     };
+  }
+
+  onClickPopUpBtn(id){
+    let viewContainerRef = this.popupHost.viewContainerRef;
+    viewContainerRef.clear();
+    let data;
+    if(id === "city"){
+      data = {
+         id:"myCityModal",
+         heading: "Add City",
+         on_click: "onClickAddCity(inputRef)"
+      }
+    }
+    else{
+      data = {
+        id:"mySkillModal",
+        heading: "Add Skill",
+        on_click: "onClickAddSkill(inputRef)"
+     }
+    }
+
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(PopupComponent);
+    let componentRef = viewContainerRef.createComponent(componentFactory);
+    (<PopUpDataComponent>componentRef.instance).data = data;
   }
 
   onSubmit(){
